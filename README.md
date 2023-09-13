@@ -1,37 +1,39 @@
-# IKT_backend
+# IKT_imagesAPI_new
 
-### REST-API containing core functionalities of two APIs
-*Dev mode differentiates a bit from deployed API*
+### Third REST-APIs for my final PWA project
 
-__1. Prompt API :__ enables write, read all, read one random and delete functionality
-> Endpoints:
-> <br>  POST: https://localhost:8080/prompt
-> <br>  GET all: https://localhost:8080/prompt/all
-> <br>  GET random: https://localhost:8080/prompt/random
-> <br>  DELETE: https://localhost:8080/prompt/:id
+__1. Images API :__ enables write, read all, read one random and delete functionality
+```
+LOCAL ENDPOINTS:
+POST: https://localhost:8080/image
+GET one: https://localhost:8080/image/:id
+GET all: https://localhost:8080/image
+```
+```
+DEPLOYED ENDPOINTS:
+POST: https://ikt-imagesapi-new.onrender.com/image
+GET one: https://ikt-imagesapi-new.onrender.com/image/:id
+GET all: https://ikt-imagesapi-new.onrender.com/image
+```
 
-__2. Writings API :__ enables write, get all and delete text and upload, get all and delete image
-> Endpoints:
-> <br>  POST text: https://localhost:8080/text
-> <br>  GET all texts: https://localhost:8080/text/all
-> <br>  DELETE text: https://localhost:8080/text/:id
-> <br>  POST image: https://localhost:8080/image
-> <br>  GET all image: https://localhost:8080/image/all
-> <br>  DELETE image: https://localhost:8080/image/:id
+__2. Prompt API:__ https://github.com/Aiiii-den/IKT_promptAPI  
+__3. Writings API:__ https://github.com/Aiiii-den/IKT_writingsAPI  
 
 
 ### How to install:
 1. Clone repository locally
-2. Set up MongoDB (either on Atlas or compass) - LINK
-3. Create a .env file with the following structure and add your database credentials
-![[picture]]
-4. Run with npm run watch  
-P.S. before the app is useful at least one prompt needs to be added to the database (POST https://localhost:8080/text) -- see .yaml for further request details
+2. Run `npm i`
+3. Set up MongoDB (either on Atlas or Compass) : https://www.mongodb.com/
+4. Create a .env file with the following structure and add your database credentials
+    ``` .env
+   DB_CONNECTION: mongodb+srv://<user>:<password>@<collection>.mongodb.net/?retryWrites=true&w=majority
+   DATABASE: <database>
+   ```
+5. Run with `npm run watch`  
 
 ### Postman examples requests:
 
 
-
 ### Frontend:
-Frontend repository can be found at the following URL: https://github.com/aiiii-den/IKT_frontend  
-Or deployed at: https://lalalala
+Frontend repository can be found at the following URL: https://github.com/Aiiii-den/IKT_frontendNew  
+Or deployed at: https://ikt-frontend-new.vercel.app/

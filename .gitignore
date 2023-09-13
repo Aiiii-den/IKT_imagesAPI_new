@@ -133,6 +133,5 @@ dist
 .idea
 .DS_Store
 
-# Experiments
-./routes
+# Deployment
 package-lock.json

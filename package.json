@@ -1,7 +1,7 @@
 {
-  "name": "ikt_backend",
+  "name": "ikt_imagesapi_new",
   "version": "1.0.0",
-  "description": "Writing REST-API",
+  "description": "Images REST-API",
   "main": "server.js",
   "scripts": {
     "watch": "nodemon ./server.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Aiiii-den/IKT_backend.git"
+    "url": "git+https://github.com/Aiiii-den/IKT_imagesAPI_new.git"
   },
   "author": "A. Becker",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Aiiii-den/IKT_backend/issues"
+    "url": "https://github.com/Aiiii-den/IKT_imagesAPI_new/issues"
   },
-  "homepage": "https://github.com/Aiiii-den/IKT_backend#readme",
+  "homepage": "https://github.com/Aiiii-den/IKT_imagesAPI_new#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",

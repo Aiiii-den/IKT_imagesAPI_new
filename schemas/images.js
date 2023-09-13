@@ -13,6 +13,11 @@ const imageSchema=new mongoose.Schema({
         required: false,
         trim: true
     },
+    mood: {
+        type: String,
+        required: false,
+        trim: true
+    },
     date: {
         type: Date,
         required: false,

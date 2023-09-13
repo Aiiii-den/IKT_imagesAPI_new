@@ -19,7 +19,7 @@ const imageSchema=new mongoose.Schema({
         trim: true
     },
     date: {
-        type: Date,
+        type: String,
         required: false,
         trim: true
     },

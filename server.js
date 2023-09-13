@@ -1,6 +1,9 @@
 const express = require('express');
 let { mongoose } = require('./config/mongodb');
-const { Images } = require("./schemas/images")
+const { Images } = require("./schemas/images");
+const upload = require('./config/upload');
+const connection = mongoose.createConnection(process.env.DB_CONNECTION);
+require('dotenv').config();
 
 const app = express();
 const PORT = 8080;
@@ -16,29 +19,53 @@ app.listen(PORT, (error) => {
     }
 });
 
-/**
- *  Routes
- */
-const upload = require('./config/upload');
-require('dotenv').config();
-
 /* ----------------- POST ---------------------------- */
 
 // POST one image
 app.post('/image', upload.single('file'), async(req, res) => {
-    const newPost = new Images({
+    const newImage = new Images({
         title: req.body.title,
+        mood: req.body.mood,
         location: req.body.location,
         date: req.body.date,
         image_id: req.file.filename
     })
-    await newPost.save();
-    res.send(newPost);
+    await newImage.save();
+    res.send(newImage);
 });
 
 /* ----------------- GET ---------------------------- */
 
-const connection = mongoose.createConnection(process.env.DB_CONNECTION);
+
+// GET one image via id
+app.get('/image/:id', async(req, res) => {
+    getOneImage(req.params.id)
+        .then( (image) => {
+            console.log('image', image);
+            res.send(image);
+        })
+        .catch( () => {
+            res.status(404);
+            res.send({
+                error: "Image does not exist!"
+            });
+        })
+});
+
+// GET all images
+app.get('/image', async(req, res) => {
+    getAllImages()
+        .then( (images) => {
+            res.send(images);
+        })
+        .catch( () => {
+            res.status(404);
+            res.send({
+                error: "Images do not exist!"
+            });
+        })
+});
+
 function getOneImage(id) {
     return new Promise( async(resolve, reject) => {
         try {
@@ -59,13 +86,14 @@ function getOneImage(id) {
             let base64file = 'data:' + allFiles[0].contentType + ';base64,' + fileData.join('');
             let getImage = new Images({
                 "title": image.title,
+                "mood": image.mood,
                 "location": image.location,
                 "date": image.date,
                 "image_id": base64file
             });
             resolve(getImage)
         } catch {
-            reject(new Error("Post does not exist!"));
+            reject(new Error("Image does not exist!"));
         }
     })
 }
@@ -87,52 +115,4 @@ function getAllImages() {
         }
     });
 }
-
-// GET one image via id
-app.get('/image/:id', async(req, res) => {
-    getOneImage(req.params.id)
-        .then( (image) => {
-            console.log('image', image);
-            res.send(image);
-        })
-        .catch( () => {
-            res.status(404);
-            res.send({
-                error: "Post does not exist!"
-            });
-        })
-});
-
-// GET all images
-app.get('/image', async(req, res) => {
-    getAllImages()
-        .then( (images) => {
-            res.send(images);
-        })
-        .catch( () => {
-            res.status(404);
-            res.send({
-                error: "Post do not exist!"
-            });
-        })
-});
-
-/* ----------------- DELETE ---------------------------- */
-
-// DELETE one post via id
-app.delete('/image/:id', async(req, res) => {
-    try {
-        const image = await Images.findOne({ _id: req.params.id })
-        let fileName = image.image_id;
-        await Images.deleteOne({ _id: req.params.id });
-        await files.find({filename: fileName}).toArray( async(err, docs) => {
-            await chunks.deleteMany({files_id : docs[0]._id});
-        })
-        await files.deleteOne({filename: fileName});
-        res.status(204).send()
-    } catch {
-        res.status(404)
-        res.send({ error: "Post does not exist!" })
-    }
-});
 

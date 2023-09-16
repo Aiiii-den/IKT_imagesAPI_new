@@ -2,6 +2,7 @@ const express = require('express');
 let { mongoose } = require('./config/mongodb');
 const { Images } = require("./schemas/images");
 const upload = require('./config/upload');
+const  ObjectId = require('mongodb').ObjectId
 const connection = mongoose.createConnection(process.env.DB_CONNECTION);
 require('dotenv').config();
 
@@ -24,6 +25,7 @@ app.listen(PORT, (error) => {
 // POST one image
 app.post('/image', upload.single('file'), async(req, res) => {
     const newImage = new Images({
+        _id: new ObjectId(),
         title: req.body.title,
         mood: req.body.mood,
         location: req.body.location,
@@ -85,6 +87,7 @@ function getOneImage(id) {
             }
             let base64file = 'data:' + allFiles[0].contentType + ';base64,' + fileData.join('');
             let getImage = new Images({
+                "_id": image._id,
                 "title": image.title,
                 "mood": image.mood,
                 "location": image.location,

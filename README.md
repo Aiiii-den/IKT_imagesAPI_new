@@ -15,11 +15,9 @@ GET all: https://localhost:8080/image
 ```
 ```
 Deployed Endpoints:
-POST: https://ikt-imagesapi-new.onrender.com/image
 GET one: https://ikt-imagesapi-new.onrender.com/image/:id
 GET all: https://ikt-imagesapi-new.onrender.com/image
 ```
-_For a visual representation of the possible requests please refer to the accompanying yaml: [imagesAPI.yaml](https://github.com/Aiiii-den/IKT_imagesAPI_new/blob/main/imagesAPI.yaml)_
 
 
 ### How to install:

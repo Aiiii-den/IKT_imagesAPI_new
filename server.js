@@ -2,8 +2,11 @@ const express = require('express');
 let { mongoose } = require('./config/mongodb');
 const { Images } = require("./schemas/images");
 const upload = require('./config/upload');
+const  ObjectId = require('mongodb').ObjectId
 const connection = mongoose.createConnection(process.env.DB_CONNECTION);
 require('dotenv').config();
+const webpush = require('web-push')
+
 
 const app = express();
 const PORT = 8080;
@@ -19,11 +22,41 @@ app.listen(PORT, (error) => {
     }
 });
 
+
+/* ----------------- PUSH NOTIF -------------------------- */
+const publicVapidKey = process.env.PUBLIC_KEY;
+const privateVapidKey = process.env.PRIVATE_KEY;
+const pushSubscription = {
+    endpoint: process.env.ENDPOINT,
+    keys: {
+        p256dh: process.env.P256DH_KEY,
+        auth: process.env.AUTH_KEY
+    }
+};
+
+function sendNotification(message) {
+    try{
+        webpush.setVapidDetails('mailto:aiiden.dev@gmail.com', publicVapidKey, privateVapidKey);
+        const payload = JSON.stringify({
+            title: 'New Push Notification',
+            content: message,
+            openUrl: 'https://freiheit.f4.htw-berlin.de/ikt/'
+        });
+        webpush.sendNotification(pushSubscription,payload)
+            .catch(err => console.error(err));
+        console.log('push notification sent');
+    }catch{
+        console.log('push notif could not be send')
+    }
+
+}
+
 /* ----------------- POST ---------------------------- */
 
 // POST one image
 app.post('/image', upload.single('file'), async(req, res) => {
     const newImage = new Images({
+        _id: new ObjectId(),
         title: req.body.title,
         mood: req.body.mood,
         location: req.body.location,
@@ -31,6 +64,7 @@ app.post('/image', upload.single('file'), async(req, res) => {
         image_id: req.file.filename
     })
     await newImage.save();
+    sendNotification('Entry was saved in database :)');
     res.send(newImage);
 });
 
@@ -85,6 +119,7 @@ function getOneImage(id) {
             }
             let base64file = 'data:' + allFiles[0].contentType + ';base64,' + fileData.join('');
             let getImage = new Images({
+                "_id": image._id,
                 "title": image.title,
                 "mood": image.mood,
                 "location": image.location,

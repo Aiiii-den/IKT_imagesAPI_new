@@ -1,13 +1,11 @@
-/**
- * id
- * file
- * date
- * location
- */
-
 const mongoose = require('mongoose');
 
 const imageSchema=new mongoose.Schema({
+    _id: {
+        type: mongoose.Types.ObjectId,
+        required: true,
+        trim: true
+    },
     title: {
         type: String,
         required: false,

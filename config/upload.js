@@ -6,7 +6,6 @@ require('dotenv').config()
 
 const storage = new GridFsStorage({
     url: process.env.DB_CONNECTION,
-    dbName: process.env.DATABASE,
     file: (req, file) => {
         const match = ["image/png", "image/jpeg", "image/jpg"];
 
